@@ -756,7 +756,7 @@ function AdminPanel({ onBack }) {
                       e("option",{value:"cancelled"},"Cancelado")
                     ),
                     e("a", {
-                      href:`https://wa.me/55${b.phone.replace(/\D/g,"")}?text=Olá ${b.name}! Seu agendamento está confirmado! 💅`,
+                      href:`https://wa.me/558399046050${b.phone.replace(/\D/g,"")}?text=Olá ${b.name}! Seu agendamento está confirmado! 💅`,
                       target:"_blank", rel:"noopener noreferrer",
                       className:"btn-green",
                     }, "💬 WhatsApp"),
@@ -864,7 +864,7 @@ function App() {
         e("p",  { className:"hero-subtitle" }, "Detalhes que realçam a sua beleza e elegância natural!"),
         e("button", { className:"btn-nude", onClick:()=>servRef.current?.scrollIntoView({behavior:"smooth"}) }, "Agendar Agora"),
         e("div", { className:"hero-stats" },
-          e("div",{style:{textAlign:"center"}}, e("div",{className:"hero-stat-num"},"15 Dias +"), e("div",{className:"text-sm text-gray-600"},"Durabilidade")),
+          e("div",{style:{textAlign:"center"}}, e("div",{className:"hero-stat-num"},"Máxima"), e("div",{className:"text-sm text-gray-600"},"Durabilidade")),
           e("div",{style:{textAlign:"center"}}, e("div",{className:"hero-stat-num"},"Alta"),   e("div",{className:"text-sm text-gray-600"},"Performance")),
           e("div",{style:{textAlign:"center"}}, e("div",{className:"hero-stat-num"},"100% "), e("div",{className:"text-sm text-gray-600"},"Naturalidade"))
         )
@@ -1069,6 +1069,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(e(App));
 </body>
 
 </html>
+
 
 
 
