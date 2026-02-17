@@ -875,9 +875,9 @@ function App() {
     e("section", { ref:servRef, className:"px-6 py-16 bg-white" },
       e("div", { className:"max-w-6xl mx-auto" },
         e("div", { className:"text-center mb-12" },
-          e("h2", { style:{fontFamily:"'Playfair Display',serif",fontSize:"clamp(2rem,5vw,3rem)",fontWeight:700,marginBottom:"1rem"} }, "Nossos Serviços"),
-          e("p",  { className:"text-lg text-gray-600 max-w-3xl mx-auto" }, "Escolha o serviço ideal para você"),
-          e("div",{ className:"hint-pill" }, "💡 Clique para selecionar · Clique novamente para desmarcar")
+          e("h2", { style:{fontFamily:"'Playfair Display',serif",fontSize:"clamp(2rem,5vw,3rem)",fontWeight:700,marginBottom:"1rem"} }, "Sua elegância em foco"),
+          e("p",  { className:"text-lg text-gray-600 max-w-3xl mx-auto" }, "Escolha o serviço ideal para sua semana."),
+          e("div",{ className:"hint-pill" }, "💡 É possível selecionar mais de uma opção")
         ),
 
         // Grid de serviços
@@ -894,7 +894,7 @@ function App() {
               e("p",  { className:"text-sm text-gray-600 mb-4", style:{lineHeight:1.6} }, s.description),
               e("div",{ className:"flex items-center justify-between text-sm" },
                 e("div",{className:"flex items-center gap-1 text-gray-600"}, e("span",null,"🕐"), e("span",null,s.duration+" min")),
-                e("div",{className:"flex items-center gap-1 text-nude font-semibold"}, e("span",null,"💰"), e("span",null,"R$ "+s.price))
+                e("div",{className:"flex items-center gap-1 text-nude font-semibold"}, e("span",null,""), e("span",null,"R$ "+s.price))
               )
             );
           })
@@ -1069,4 +1069,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(e(App));
 </body>
 
 </html>
+
 
