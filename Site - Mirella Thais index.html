@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atelier de Beleza - Nail Design Studio</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f9fafb; color: #111827; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; }
+    button { font-family: 'Inter', sans-serif; cursor: pointer; border: none; background: none; }
+
+    /* ── CSS Variables ── */
+    :root {
+      --nude:        hsl(15,40%,70%);
+      --nude-light:  hsl(15,35%,92%);
+      --nude-dark:   hsl(15,35%,55%);
+      --nude-ring:   hsl(15,35%,82%);
+      --gold:        hsl(38,55%,65%);
+      --gold-light:  hsl(38,40%,90%);
+    }
+
+    /* ── Utilities ── */
+    .min-h-screen  { min-height: 100vh; }
+    .w-full        { width: 100%; }
+    .max-w-sm      { max-width: 24rem; }
+    .max-w-3xl     { max-width: 48rem; }
+    .max-w-5xl     { max-width: 64rem; }
+    .max-w-6xl     { max-width: 72rem; }
+    .max-w-7xl     { max-width: 80rem; }
+    .mx-auto       { margin-left: auto; margin-right: auto; }
+    .text-center   { text-align: center; }
+    .select-none   { user-select: none; }
+    .cursor-default{ cursor: default; }
+    .cursor-pointer{ cursor: pointer; }
+    .overflow-hidden { overflow: hidden; }
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .fixed    { position: fixed; }
+    .inset-0  { inset: 0; }
+    .z-10     { z-index: 10; }
+    .flex     { display: flex; }
+    .inline-flex { display: inline-flex; }
+    .grid     { display: grid; }
+    .hidden   { display: none; }
+    .items-center  { align-items: center; }
+    .items-start   { align-items: flex-start; }
+    .justify-center{ justify-content: center; }
+    .justify-between{ justify-content: space-between; }
+    .flex-col  { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .flex-1    { flex: 1; }
+    .flex-shrink-0 { flex-shrink: 0; }
+    .gap-1 { gap: .25rem; }
+    .gap-2 { gap: .5rem; }
+    .gap-3 { gap: .75rem; }
+    .gap-4 { gap: 1rem; }
+    .gap-6 { gap: 1.5rem; }
+    .gap-8 { gap: 2rem; }
+    .space-y-1 > * + * { margin-top: .25rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-y-6 > * + * { margin-top: 1.5rem; }
+    .p-2  { padding: .5rem; }
+    .p-4  { padding: 1rem; }
+    .p-6  { padding: 1.5rem; }
+    .p-8  { padding: 2rem; }
+    .px-4 { padding-left:1rem; padding-right:1rem; }
+    .px-6 { padding-left:1.5rem; padding-right:1.5rem; }
+    .px-8 { padding-left:2rem; padding-right:2rem; }
+    .py-2 { padding-top:.5rem; padding-bottom:.5rem; }
+    .py-3 { padding-top:.75rem; padding-bottom:.75rem; }
+    .py-4 { padding-top:1rem; padding-bottom:1rem; }
+    .py-8 { padding-top:2rem; padding-bottom:2rem; }
+    .py-16{ padding-top:4rem; padding-bottom:4rem; }
+    .pb-0 { padding-bottom: 0; }
+    .pt-2 { padding-top: .5rem; }
+    .mb-1 { margin-bottom: .25rem; }
+    .mb-2 { margin-bottom: .5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-12{ margin-bottom: 3rem; }
+    .mt-1 { margin-top: .25rem; }
+    .mt-2 { margin-top: .5rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-12{ margin-top: 3rem; }
+    .ml-2 { margin-left: .5rem; }
+    .border   { border: 1px solid #e5e7eb; }
+    .border-t { border-top: 1px solid #e5e7eb; }
+    .border-2 { border: 2px solid; }
+    .rounded    { border-radius: .25rem; }
+    .rounded-lg { border-radius: .5rem; }
+    .rounded-xl { border-radius: .75rem; }
+    .rounded-2xl{ border-radius: 1rem; }
+    .rounded-full { border-radius: 9999px; }
+    .shadow-sm  { box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .shadow-lg  { box-shadow: 0 8px 30px rgba(0,0,0,.12); }
+    .shadow-xl  { box-shadow: 0 16px 48px rgba(0,0,0,.16); }
+    .transition-all      { transition: all .3s; }
+    .transition-colors   { transition: background .2s, color .2s, border-color .2s; }
+    .transition-shadow   { transition: box-shadow .2s; }
+    .duration-300 { transition-duration: .3s; }
+    .opacity-10 { opacity: .1; }
+    .blur-3xl { filter: blur(64px); }
+    .backdrop-blur-sm { backdrop-filter: blur(4px); }
+
+    /* ── Typography ── */
+    .text-xs   { font-size: .75rem; }
+    .text-sm   { font-size: .875rem; }
+    .text-base { font-size: 1rem; }
+    .text-lg   { font-size: 1.125rem; }
+    .text-xl   { font-size: 1.25rem; }
+    .text-2xl  { font-size: 1.5rem; }
+    .text-3xl  { font-size: 1.875rem; }
+    .text-4xl  { font-size: 2.25rem; }
+    .text-5xl  { font-size: 3rem; }
+    .font-medium  { font-weight: 500; }
+    .font-semibold{ font-weight: 600; }
+    .font-bold    { font-weight: 700; }
+    .leading-tight  { line-height: 1.25; }
+    .leading-relaxed{ line-height: 1.625; }
+    .tracking-widest{ letter-spacing: .1em; }
+    .capitalize { text-transform: capitalize; }
+    .line-through { text-decoration: line-through; }
+
+    /* ── Colors ── */
+    .bg-white     { background: #fff; }
+    .bg-gray-50   { background: #f9fafb; }
+    .bg-gray-100  { background: #f3f4f6; }
+    .bg-green-50  { background: #f0fdf4; }
+    .bg-red-50    { background: #fef2f2; }
+    .text-white      { color: #fff; }
+    .text-gray-500   { color: #6b7280; }
+    .text-gray-600   { color: #4b5563; }
+    .text-gray-700   { color: #374151; }
+    .text-gray-900   { color: #111827; }
+    .text-green-600  { color: #16a34a; }
+    .text-green-800  { color: #166534; }
+    .text-red-500    { color: #ef4444; }
+    .text-red-600    { color: #dc2626; }
+    .text-blue-600   { color: #2563eb; }
+    .text-yellow-600 { color: #ca8a04; }
+    .text-nude       { color: var(--nude); }
+    .text-gold       { color: var(--gold); }
+    .border-gray-200 { border-color: #e5e7eb; }
+    .border-gray-300 { border-color: #d1d5db; }
+    .border-green-200{ border-color: #bbf7d0; }
+    .border-nude     { border-color: var(--nude); }
+    .hover-shadow:hover { box-shadow: 0 4px 20px rgba(0,0,0,.12); }
+
+    /* ── Grid ── */
+    .grid-cols-2 { grid-template-columns: repeat(2,1fr); }
+    .grid-cols-3 { grid-template-columns: repeat(3,1fr); }
+    .grid-cols-7 { grid-template-columns: repeat(7,1fr); }
+
+    /* ── HERO ── */
+    .hero-section {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(135deg, var(--nude-light) 0%, #fff 50%, var(--gold-light) 100%);
+    }
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(64px);
+      opacity: .1;
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem 1.2rem;
+      background: rgba(255,255,255,.5);
+      backdrop-filter: blur(4px);
+      border-radius: 9999px;
+      border: 1px solid rgba(198,150,130,.3);
+      font-size: .875rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #111827;
+      margin-bottom: 1.25rem;
+    }
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: #4b5563;
+      line-height: 1.625;
+      max-width: 38rem;
+      margin: 0 auto 2rem;
+    }
+    .hero-stats {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 2rem;
+      max-width: 32rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: var(--nude);
+      margin-bottom: .25rem;
+    }
+
+    /* ── Buttons ── */
+    .btn-nude {
+      background: var(--nude);
+      color: #fff;
+      font-weight: 500;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.1);
+      transition: all .3s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-nude:hover { background: var(--nude-dark); box-shadow: 0 8px 24px rgba(0,0,0,.15); transform: scale(1.04); }
+    .btn-nude:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+    .btn-nude-outline {
+      background: transparent; color: #6b7280;
+      font-size: .875rem; padding: .5rem 0;
+      border: none; cursor: pointer; transition: color .2s;
+    }
+    .btn-nude-outline:hover { color: #374151; }
+    .btn-red {
+      background: #dc2626; color: #fff;
+      padding: .65rem 1.25rem; border-radius: .5rem;
+      font-size: .875rem; cursor: pointer; border: none; transition: background .2s;
+    }
+    .btn-red:hover { background: #b91c1c; }
+    .btn-green {
+      background: #16a34a; color: #fff;
+      padding: .65rem 1.25rem; border-radius: .5rem;
+      font-size: .875rem; cursor: pointer; border: none; transition: background .2s;
+      text-align: center; display: block;
+    }
+    .btn-green:hover { background: #15803d; }
+    .btn-logout {
+      background: #dc2626; color: #fff;
+      padding: .75rem 1.5rem; border-radius: 9999px;
+      font-size: .875rem; cursor: pointer; border: none;
+      display: flex; align-items: center; gap: .4rem; transition: background .2s;
+    }
+    .btn-logout:hover { background: #b91c1c; }
+
+    /* ── Service card ── */
+    .service-card {
+      padding: 1.5rem;
+      border-radius: .75rem;
+      cursor: pointer;
+      border: 2px solid #e5e7eb;
+      background: #fff;
+      transition: all .25s;
+      position: relative;
+    }
+    .service-card:hover { border-color: rgba(198,150,130,.5); box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .service-card.selected { border-color: var(--nude); box-shadow: 0 4px 20px rgba(0,0,0,.12); transform: scale(1.03); }
+    .service-card-check {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      width: 1.4rem; height: 1.4rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700;
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+    .service-card-check.empty { border: 2px solid #d1d5db; background: #fff; }
+    .service-card-check.checked { border: none; background: var(--nude); color: #fff; }
+
+    /* ── Addon card ── */
+    .addon-card {
+      padding: 1rem;
+      border-radius: .5rem;
+      cursor: pointer;
+      border: 2px solid #e5e7eb;
+      background: #fff;
+      transition: all .25s;
+    }
+    .addon-card:hover { border-color: rgba(194,154,84,.5); }
+    .addon-card.selected { border-color: var(--gold); background: hsl(38,40%,96%); }
+
+    /* ── Summary box ── */
+    .summary-box {
+      padding: 1.5rem;
+      background: hsl(15,35%,95%);
+      border-radius: .75rem;
+      border: 2px solid var(--nude);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: .875rem;
+      margin-bottom: .35rem;
+    }
+    .summary-total {
+      border-top: 1px solid rgba(198,150,130,.4);
+      padding-top: .6rem;
+      margin-top: .4rem;
+    }
+
+    /* ── Form inputs ── */
+    .field-input {
+      width: 100%;
+      padding: .75rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: .5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: .95rem;
+      outline: none;
+      transition: border .2s, box-shadow .2s;
+    }
+    .field-input:focus { border-color: var(--nude); box-shadow: 0 0 0 3px var(--nude-ring); }
+    .field-input.error { border-color: #f87171; background: #fef2f2; }
+    .field-select {
+      width: 100%;
+      padding: .6rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: .5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: .875rem;
+      background: #fff;
+      outline: none;
+      cursor: pointer;
+    }
+    .field-select:focus { border-color: var(--nude); }
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: .5rem;
+    }
+    .check-row input[type="checkbox"] { margin-top: .15rem; accent-color: var(--nude); width: 1rem; height: 1rem; flex-shrink: 0; }
+
+    /* ── Calendar ── */
+    .cal-nav-btn { padding: .4rem .8rem; background: none; border: 1px solid #e5e7eb; border-radius: .35rem; cursor: pointer; font-size: 1rem; }
+    .cal-nav-btn:hover { background: #f3f4f6; }
+    .cal-day-name { text-align: center; font-size: .7rem; font-weight: 500; color: #6b7280; padding: .4rem 0; }
+    .cal-day {
+      text-align: center; padding: .45rem .2rem;
+      border-radius: .35rem; font-size: .85rem;
+      border: none; background: none; cursor: pointer;
+      transition: background .15s; width: 100%;
+    }
+    .cal-day:hover:not(:disabled) { background: hsl(15,35%,92%); }
+    .cal-day.today { background: #f3f4f6; font-weight: 600; }
+    .cal-day.selected { background: var(--nude); color: #fff; font-weight: 700; }
+    .cal-day:disabled { color: #d1d5db; cursor: not-allowed; text-decoration: line-through; }
+
+    /* ── Time slots ── */
+    .slot-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: .6rem; max-height: 22rem; overflow-y: auto; }
+    .slot-btn {
+      padding: .7rem .5rem; border-radius: .5rem; font-size: .875rem; font-weight: 500;
+      border: 1px solid #e5e7eb; background: #f9fafb; cursor: pointer; transition: all .2s;
+    }
+    .slot-btn:hover    { border-color: var(--nude); background: hsl(15,35%,95%); }
+    .slot-btn.selected { background: var(--nude); color: #fff; border-color: var(--nude); transform: scale(1.04); }
+
+    /* ── Badge ── */
+    .badge { display: inline-block; padding: .2rem .75rem; border-radius: 9999px; font-size: .75rem; font-weight: 500; }
+    .badge-yellow { background: #fef9c3; color: #854d0e; }
+    .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+    .badge-green  { background: #dcfce7; color: #15803d; }
+    .badge-red    { background: #fee2e2; color: #b91c1c; }
+
+    /* ── Stat card ── */
+    .stat-card { background: #fff; border-radius: .75rem; padding: 1rem 1.2rem; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+    .stat-label { font-size: .7rem; color: #6b7280; margin-bottom: .2rem; }
+    .stat-value { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
+
+    /* ── Booking card ── */
+    .booking-card { background: #fff; border-radius: .75rem; padding: 1.5rem; box-shadow: 0 1px 6px rgba(0,0,0,.07); transition: box-shadow .2s; }
+    .booking-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.1); }
+    .booking-meta { display: flex; flex-wrap: wrap; gap: .75rem; font-size: .85rem; color: #4b5563; margin-top: .35rem; }
+    .booking-actions { display: flex; flex-direction: column; gap: .5rem; min-width: 190px; }
+
+    /* ── Login ── */
+    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #f9fafb; padding: 1.5rem; }
+    .login-card { background: #fff; border-radius: 1rem; box-shadow: 0 8px 40px rgba(0,0,0,.1); padding: 2.5rem; width: 100%; max-width: 22rem; text-align: center; }
+    .login-pw-input { text-align: center; letter-spacing: .25em; font-size: 1.1rem; }
+
+    /* ── Hints ── */
+    .hint-pill { display: inline-block; font-size: .78rem; color: var(--nude-dark); background: hsl(15,35%,93%); padding: .3rem .9rem; border-radius: 9999px; margin-top: .5rem; }
+
+    /* ── Responsive ── */
+    @media (min-width: 768px) {
+      .md\:grid-cols-2 { grid-template-columns: repeat(2,1fr); }
+      .md\:grid-cols-3 { grid-template-columns: repeat(3,1fr); }
+      .md\:grid-cols-4 { grid-template-columns: repeat(4,1fr); }
+      .md\:flex-row    { flex-direction: row; }
+      .md\:items-center{ align-items: center; }
+      .md\:justify-between { justify-content: space-between; }
+    }
+    @media (min-width: 1024px) {
+      .lg\:grid-cols-3 { grid-template-columns: repeat(3,1fr); }
+      .lg\:grid-cols-7 { grid-template-columns: repeat(7,1fr); }
+      .lg\:flex-row    { flex-direction: row; }
+      .lg\:items-start { align-items: flex-start; }
+      .lg\:justify-between { justify-content: space-between; }
+      .lg\:min-w-200   { min-width: 200px; }
+    }
+    @media (max-width: 640px) {
+      .slot-grid { grid-template-columns: repeat(2,1fr); }
+      .hero-stats { gap: 1rem; }
+      .booking-actions { flex-direction: row; flex-wrap: wrap; }
+      .booking-actions > * { flex: 1; min-width: 110px; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+// ─── Alias React ───────────────────────────────────────
+const e = React.createElement;
+const { useState, useEffect, useRef } = React;
+
+// ─── CONFIGURAÇÃO ─────────────────────────────────────
+// 🔐 Senha do painel admin
+const ADMIN_PASSWORD = "atelier2026";
+
+// 💅 Serviços
+const SERVICES = [
+  { id:"manicure-basica",   name:"Manicure Básica",    description:"Cuidados essenciais com as unhas das mãos",        duration:45,  price:35  },
+  { id:"manicure-completa", name:"Manicure Completa",  description:"Manicure com esmaltação em gel e hidratação",       duration:60,  price:55  },
+  { id:"pedicure-basica",   name:"Pedicure Básica",    description:"Cuidados essenciais com as unhas dos pés",          duration:60,  price:40  },
+  { id:"pedicure-completa", name:"Pedicure Completa",  description:"Pedicure com esmaltação em gel e esfoliação",       duration:75,  price:65  },
+  { id:"unha-gel",          name:"Alongamento em Gel", description:"Alongamento de unhas com gel de alta qualidade",    duration:120, price:120 },
+  { id:"manutencao-gel",    name:"Manutenção de Gel",  description:"Manutenção do alongamento em gel",                  duration:90,  price:80  },
+];
+
+// ✨ Adicionais
+const ADDONS = [
+  { id:"hidratacao",      name:"Hidratação Intensiva", description:"Tratamento hidratante para mãos ou pés",          duration:15, price:20 },
+  { id:"parafina",        name:"Banho de Parafina",    description:"Tratamento relaxante com parafina",                duration:20, price:25 },
+  { id:"esfoliacao",      name:"Esfoliação",           description:"Esfoliação profunda",                              duration:15, price:18 },
+  { id:"decoracao-extra", name:"Decoração Extra",      description:"Pedrarias, adesivos e efeitos especiais",          duration:15, price:30 },
+  { id:"frances",         name:"Francesinha",          description:"Unha francesinha clássica",                        duration:10, price:15 },
+];
+
+// 🕐 Horário de funcionamento
+const OPEN_HOUR     = 9;   // abre às 9h
+const CLOSE_HOUR    = 19;  // fecha às 19h
+const SLOT_INTERVAL = 30;  // intervalo em minutos
+
+// ─── STORAGE ──────────────────────────────────────────
+const STORAGE_KEY = "nail_bookings";
+const SESSION_KEY = "nail_admin_session";
+
+const db = {
+  getAll() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+  },
+  save(list) { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); },
+  add(booking) {
+    const list = db.getAll();
+    const item = {
+      ...booking,
+      id: `b_${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+      createdAt: new Date().toISOString(),
+      status: "pending",
+    };
+    list.push(item); db.save(list); return item;
+  },
+  updateStatus(id, status) {
+    const list = db.getAll();
+    const i = list.findIndex(b => b.id === id);
+    if (i === -1) return;
+    list[i].status = status; db.save(list);
+  },
+  remove(id) { db.save(db.getAll().filter(b => b.id !== id)); },
+  byDate(date) { return db.getAll().filter(b => b.date === date && b.status !== "cancelled"); },
+  isSlotFree(date, time, duration) {
+    const [rh, rm] = time.split(":").map(Number);
+    const rStart = rh * 60 + rm, rEnd = rStart + duration;
+    return !db.byDate(date).some(b => {
+      const [bh, bm] = b.time.split(":").map(Number);
+      const bStart = bh * 60 + bm, bEnd = bStart + b.totalDuration;
+      return rStart < bEnd && rEnd > bStart;
+    });
+  },
+  slots(date, duration) {
+    const out = [];
+    for (let h = OPEN_HOUR; h < CLOSE_HOUR; h++) {
+      for (let m = 0; m < 60; m += SLOT_INTERVAL) {
+        const time = `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
+        if (h * 60 + m + duration <= CLOSE_HOUR * 60 && db.isSlotFree(date, time, duration))
+          out.push(time);
+      }
+    }
+    return out;
+  },
+  stats() {
+    const all = db.getAll(), today = new Date().toISOString().split("T")[0];
+    return {
+      total:     all.length,
+      pending:   all.filter(b => b.status === "pending").length,
+      confirmed: all.filter(b => b.status === "confirmed").length,
+      completed: all.filter(b => b.status === "completed").length,
+      cancelled: all.filter(b => b.status === "cancelled").length,
+      today:     all.filter(b => b.date === today && b.status !== "cancelled").length,
+      revenue:   all.filter(b => b.status === "completed").reduce((s, b) => s + b.totalPrice, 0),
+    };
+  },
+};
+
+// ─── AUTH ─────────────────────────────────────────────
+const auth = {
+  login(pw) {
+    if (pw !== ADMIN_PASSWORD) return false;
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ expiry: Date.now() + 8 * 3600 * 1000 }));
+    return true;
+  },
+  logout() { localStorage.removeItem(SESSION_KEY); },
+  ok() {
+    try {
+      const d = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+      if (!d || Date.now() > d.expiry) { this.logout(); return false; }
+      return true;
+    } catch { return false; }
+  },
+};
+
+// ─── HELPERS ──────────────────────────────────────────
+const fmtPhone = v => {
+  const n = v.replace(/\D/g, "").slice(0, 11);
+  if (n.length <= 2) return n;
+  if (n.length <= 7) return `(${n.slice(0,2)}) ${n.slice(2)}`;
+  return `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`;
+};
+
+// ─── COMPONENT: Calendar ──────────────────────────────
+function Calendar({ selectedDate, onSelectDate }) {
+  const [cur, setCur] = useState(() => { const d = new Date(); d.setDate(1); return d; });
+  const today = new Date(); today.setHours(0,0,0,0);
+  const y = cur.getFullYear(), mo = cur.getMonth();
+  const firstDow = new Date(y, mo, 1).getDay();
+  const daysInMonth = new Date(y, mo + 1, 0).getDate();
+  const monthName = cur.toLocaleDateString("pt-BR", { month:"long", year:"numeric" });
+  const DAY_NAMES = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+
+  const cells = [];
+  for (let i = 0; i < firstDow; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(new Date(y, mo, d));
+
+  return e("div", { className:"p-4" },
+    // Header
+    e("div", { className:"flex items-center justify-between mb-4" },
+      e("button", { className:"cal-nav-btn", onClick:()=>setCur(new Date(y,mo-1,1)) }, "←"),
+      e("h3", { className:"font-semibold capitalize" }, monthName),
+      e("button", { className:"cal-nav-btn", onClick:()=>setCur(new Date(y,mo+1,1)) }, "→")
+    ),
+    // Day names
+    e("div", { className:"grid grid-cols-7 gap-1 mb-2" },
+      ...DAY_NAMES.map(d => e("div", { key:d, className:"cal-day-name" }, d))
+    ),
+    // Days
+    e("div", { className:"grid grid-cols-7 gap-1" },
+      ...cells.map((date, i) => {
+        if (!date) return e("div", { key:"e"+i });
+        const isSun  = date.getDay() === 0;
+        const isPast = date < today;
+        const isToday = date.toDateString() === today.toDateString();
+        const isSel  = selectedDate && date.toDateString() === selectedDate.toDateString();
+        const dis    = isPast || isSun;
+        return e("button", {
+          key: i, disabled: dis,
+          className: ["cal-day", isToday && !isSel ? "today" : "", isSel ? "selected" : ""].filter(Boolean).join(" "),
+          onClick: () => !dis && onSelectDate(date),
+        }, date.getDate());
+      })
+    ),
+    e("p", { className:"text-xs text-gray-500 mt-4 text-center" }, "* Não atendemos aos domingos")
+  );
+}
+
+// ─── COMPONENT: AdminLogin ────────────────────────────
+function AdminLogin({ onLoginSuccess, onBack }) {
+  const [pw, setPw]         = useState("");
+  const [error, setError]   = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [blocked, setBlocked]   = useState(false);
+
+  const handleSubmit = ev => {
+    ev.preventDefault();
+    if (blocked) return;
+    if (auth.login(pw)) {
+      setError(false); onLoginSuccess();
+    } else {
+      const t = attempts + 1;
+      setAttempts(t); setError(true); setPw("");
+      if (t >= 5) {
+        setBlocked(true);
+        setTimeout(() => { setBlocked(false); setAttempts(0); }, 30000);
+      }
+    }
+  };
+
+  return e("div", { className:"login-wrap" },
+    e("div", { className:"login-card" },
+      e("div", { className:"text-center mb-8" },
+        e("div", { style:{fontSize:"3rem",marginBottom:"1rem"} }, "🔐"),
+        e("h2", { className:"text-2xl font-semibold text-gray-900" }, "Área Restrita"),
+        e("p", { className:"text-gray-500 text-sm mt-2" }, "Acesso exclusivo para administradoras")
+      ),
+      e("form", { onSubmit:handleSubmit, className:"space-y-4" },
+        e("div", null,
+          e("label", { className:"text-sm font-medium text-gray-700", style:{display:"block",marginBottom:".25rem"} }, "Senha"),
+          e("input", {
+            type:"password", value:pw, autoFocus:true, disabled:blocked,
+            placeholder:"••••••••••",
+            className:`field-input login-pw-input${error ? " error" : ""}`,
+            onChange: ev => { setPw(ev.target.value); setError(false); },
+          })
+        ),
+        error && !blocked && e("p", { className:"text-red-500 text-sm text-center" },
+          `❌ Senha incorreta. ${5 - attempts} tentativa(s) restante(s).`
+        ),
+        blocked && e("p", { className:"text-red-600 text-sm text-center font-semibold" },
+          "🚫 Muitas tentativas. Aguarde 30 segundos."
+        ),
+        e("button", { type:"submit", disabled:blocked, className:"btn-nude w-full", style:{padding:".8rem",fontSize:"1rem"} }, "Entrar"),
+        e("button", { type:"button", onClick:onBack, className:"btn-nude-outline w-full" }, "← Voltar ao site")
+      )
+    )
+  );
+}
+
+// ─── COMPONENT: AdminPanel ────────────────────────────
+function AdminPanel({ onBack }) {
+  const [bookings, setBookings]       = useState([]);
+  const [stats, setStats]             = useState({});
+  const [statusFilter, setFilter]     = useState("all");
+  const [searchTerm, setSearch]       = useState("");
+
+  const load = () => {
+    const all = db.getAll().sort((a, b) =>
+      b.date.localeCompare(a.date) || b.time.localeCompare(a.time)
+    );
+    setBookings(all); setStats(db.stats());
+  };
+  useEffect(load, []);
+
+  const shown = bookings.filter(b => {
+    if (statusFilter !== "all" && b.status !== statusFilter) return false;
+    if (!searchTerm) return true;
+    const t = searchTerm.toLowerCase();
+    return b.name.toLowerCase().includes(t) || b.phone.includes(t) || b.service.name.toLowerCase().includes(t);
+  });
+
+  const badge = s => ({
+    pending:   e("span",{className:"badge badge-yellow"},"Pendente"),
+    confirmed: e("span",{className:"badge badge-blue"},"Confirmado"),
+    completed: e("span",{className:"badge badge-green"},"Concluído"),
+    cancelled: e("span",{className:"badge badge-red"},"Cancelado"),
+  }[s]);
+
+  const STATS = [
+    { label:"Total",      val:stats.total,    color:"#111827" },
+    { label:"Pendente",   val:stats.pending,  color:"#ca8a04" },
+    { label:"Confirmado", val:stats.confirmed,color:"#2563eb" },
+    { label:"Concluído",  val:stats.completed,color:"#16a34a" },
+    { label:"Cancelado",  val:stats.cancelled,color:"#dc2626" },
+    { label:"Hoje",       val:stats.today,    color:"var(--nude-dark)" },
+    { label:"Receita",    val:`R$ ${stats.revenue||0}`, color:"#16a34a" },
+  ];
+
+  return e("div", { className:"min-h-screen bg-gray-50 p-6" },
+    e("div", { className:"max-w-7xl mx-auto" },
+
+      // Header
+      e("div", { className:"flex items-center justify-between mb-8", style:{flexWrap:"wrap",gap:"1rem"} },
+        e("div", null,
+          e("h1", { style:{fontFamily:"'Playfair Display',serif",fontSize:"2.25rem",fontWeight:700,marginBottom:".4rem"} }, "Painel Administrativo"),
+          e("p", { className:"text-gray-600" }, "Gerencie todos os agendamentos do estúdio")
+        ),
+        e("button", { className:"btn-logout", onClick:onBack }, "🔒 Sair")
+      ),
+
+      // Stats
+      e("div", { className:"grid lg:grid-cols-7 md:grid-cols-4 grid-cols-2 gap-4 mb-8" },
+        ...STATS.map(s => e("div", { key:s.label, className:"stat-card" },
+          e("div", { className:"stat-label" }, s.label),
+          e("div", { className:"stat-value", style:{color:s.color} }, s.val)
+        ))
+      ),
+
+      // Filters
+      e("div", { className:"bg-white rounded-xl p-6 shadow-sm mb-6" },
+        e("div", { className:"flex md:flex-row flex-col gap-4" },
+          e("input", { className:"field-input flex-1", placeholder:"Buscar por nome, telefone ou serviço...", value:searchTerm, onChange:ev=>setSearch(ev.target.value) }),
+          e("select", { className:"field-select", style:{width:"200px"}, value:statusFilter, onChange:ev=>setFilter(ev.target.value) },
+            e("option",{value:"all"},"Todos"),
+            e("option",{value:"pending"},"Pendente"),
+            e("option",{value:"confirmed"},"Confirmado"),
+            e("option",{value:"completed"},"Concluído"),
+            e("option",{value:"cancelled"},"Cancelado")
+          )
+        )
+      ),
+
+      // List
+      shown.length === 0
+        ? e("div", { className:"bg-white rounded-xl p-12 text-center shadow-sm" },
+            e("p", { className:"text-gray-600" }, "Nenhum agendamento encontrado")
+          )
+        : e("div", { style:{display:"flex",flexDirection:"column",gap:"1rem"} },
+            ...shown.map(b =>
+              e("div", { key:b.id, className:"booking-card" },
+                e("div", { className:"flex lg:flex-row flex-col lg:items-start lg:justify-between gap-6" },
+                  // Info
+                  e("div", { className:"flex-1", style:{display:"flex",flexDirection:"column",gap:"1rem"} },
+                    e("div", null,
+                      e("div", { className:"flex items-center gap-3 mb-2", style:{flexWrap:"wrap"} },
+                        e("h3", { style:{fontFamily:"'Playfair Display',serif",fontSize:"1.25rem",fontWeight:600} }, b.name),
+                        badge(b.status)
+                      ),
+                      e("div", { className:"booking-meta" },
+                        e("span", null, "📱 "+b.phone),
+                        e("span", null, "📅 "+new Date(b.date+"T00:00:00").toLocaleDateString("pt-BR")),
+                        e("span", null, "🕐 "+b.time+" ("+b.totalDuration+" min)")
+                      )
+                    ),
+                    e("div", { className:"text-sm" },
+                      e("div", { className:"font-semibold" }, "📋 "+b.service.name),
+                      b.addons && b.addons.length > 0 && e("div", { className:"text-gray-600" }, "+ "+b.addons.map(a=>a.name).join(", ")),
+                      b.hasAllergy && e("div", { className:"text-red-600 mt-1" }, "⚠️ Cliente possui alergia")
+                    ),
+                    e("div", { style:{fontSize:"1.1rem",fontWeight:700,color:"#16a34a"} }, "R$ "+b.totalPrice)
+                  ),
+                  // Actions
+                  e("div", { className:"booking-actions" },
+                    e("select", { className:"field-select", value:b.status, onChange:ev=>{ db.updateStatus(b.id,ev.target.value); load(); } },
+                      e("option",{value:"pending"},"Pendente"),
+                      e("option",{value:"confirmed"},"Confirmado"),
+                      e("option",{value:"completed"},"Concluído"),
+                      e("option",{value:"cancelled"},"Cancelado")
+                    ),
+                    e("a", {
+                      href:`https://wa.me/55${b.phone.replace(/\D/g,"")}?text=Olá ${b.name}! Seu agendamento está confirmado! 💅`,
+                      target:"_blank", rel:"noopener noreferrer",
+                      className:"btn-green",
+                    }, "💬 WhatsApp"),
+                    e("button", { className:"btn-red", onClick:()=>{ if(confirm("Excluir este agendamento?")){ db.remove(b.id); load(); } } }, "Excluir")
+                  )
+                )
+              )
+            )
+          )
+    )
+  );
+}
+
+// ─── COMPONENT: App ───────────────────────────────────
+function App() {
+  const [screen,       setScreen]   = useState(() => auth.ok() ? "panel" : "site");
+  const [selServices,  setSelSvc]   = useState([]);
+  const [selAddons,    setSelAddons]= useState([]);
+  const [selDate,      setSelDate]  = useState(null);
+  const [selTime,      setSelTime]  = useState(null);
+  const [slots,        setSlots]    = useState([]);
+  const [name,         setName]     = useState("");
+  const [phone,        setPhone]    = useState("");
+  const [hasAllergy,   setAllergy]  = useState(false);
+  const [accepts,      setAccepts]  = useState(false);
+  const [sent,         setSent]     = useState(false);
+
+  const servRef       = useRef(null);
+  const footerClicks  = useRef({ count:0, last:0 });
+  const prevSvcLen    = useRef(0);
+
+  const totalDuration = selServices.reduce((s,x)=>s+x.duration,0) + selAddons.reduce((s,x)=>s+x.duration,0);
+  const totalPrice    = selServices.reduce((s,x)=>s+x.price,0)    + selAddons.reduce((s,x)=>s+x.price,0);
+
+  // Reseta data/hora quando a quantidade de serviços muda
+  useEffect(() => {
+    if (prevSvcLen.current !== selServices.length) {
+      prevSvcLen.current = selServices.length;
+      setSelDate(null); setSelTime(null); setSlots([]);
+    }
+  }, [selServices]);
+
+  // Recalcula slots quando data ou addons mudam
+  useEffect(() => {
+    if (selDate && selServices.length > 0) {
+      const ds  = selDate.toISOString().split("T")[0];
+      const dur = selServices.reduce((s,x)=>s+x.duration,0) + selAddons.reduce((s,x)=>s+x.duration,0);
+      setSlots(db.slots(ds, dur || 60));
+      setSelTime(null);
+    } else if (!selDate) {
+      setSlots([]);
+    }
+  }, [selDate, selAddons]);
+
+  const toggleService = s => {
+    setSelSvc(prev => prev.some(x => x.id === s.id) ? prev.filter(x => x.id !== s.id) : [...prev, s]);
+  };
+  const toggleAddon = a => {
+    setSelAddons(prev => prev.some(x => x.id === a.id) ? prev.filter(x => x.id !== a.id) : [...prev, a]);
+  };
+
+  const footerClick = () => {
+    const now = Date.now(), d = footerClicks.current;
+    const count = now - d.last < 3000 ? d.count + 1 : 1;
+    footerClicks.current = { count, last: now };
+    if (count >= 5) { footerClicks.current = {count:0,last:0}; setScreen("login"); }
+  };
+
+  const handleSubmit = ev => {
+    ev.preventDefault();
+    if (!name.trim() || phone.replace(/\D/g,"").length < 10 || !accepts) {
+      alert("Por favor, preencha todos os campos obrigatórios."); return;
+    }
+    const ds = selDate.toISOString().split("T")[0];
+    if (!db.isSlotFree(ds, selTime, totalDuration)) { alert("Horário não está mais disponível. Escolha outro."); return; }
+    db.add({
+      name: name.trim(), phone,
+      service: {
+        id:       selServices.map(s=>s.id).join("+"),
+        name:     selServices.map(s=>s.name).join(" + "),
+        price:    selServices.reduce((s,x)=>s+x.price,0),
+        duration: selServices.reduce((s,x)=>s+x.duration,0),
+      },
+      addons:        selAddons.map(a=>({id:a.id,name:a.name,price:a.price,duration:a.duration})),
+      date:          ds, time: selTime, hasAllergy, totalPrice, totalDuration,
+    });
+    setSent(true);
+    setTimeout(() => window.location.reload(), 2500);
+  };
+
+  // ── Telas de admin ─────────────────────
+  if (screen === "login") return e(AdminLogin, { onLoginSuccess:()=>setScreen("panel"), onBack:()=>setScreen("site") });
+  if (screen === "panel") return e(AdminPanel, { onBack:()=>{ auth.logout(); setScreen("site"); } });
+
+  // ── Site público ───────────────────────
+  return e("div", { className:"min-h-screen bg-gray-50" },
+
+    // ── HERO ──────────────────────────────
+    e("section", { className:"hero-section" },
+      e("div", { className:"hero-blob", style:{width:"18rem",height:"18rem",background:"var(--nude)",top:"-3rem",left:"-3rem"} }),
+      e("div", { className:"hero-blob", style:{width:"24rem",height:"24rem",background:"var(--gold)",bottom:"-4rem",right:"-4rem"} }),
+      e("div", { style:{position:"relative",zIndex:10,textAlign:"center",padding:"4rem 1.5rem",maxWidth:"56rem",margin:"0 auto"} },
+        e("div", { className:"hero-badge" }, e("span",null,"✨"), e("span",null,"Nail Design Premium")),
+        e("h1", { className:"hero-title" }, "Atelier de Beleza"),
+        e("p",  { className:"hero-subtitle" }, "Transforme suas unhas em obras de arte. Agende seu horário e descubra a excelência em nail design."),
+        e("button", { className:"btn-nude", onClick:()=>servRef.current?.scrollIntoView({behavior:"smooth"}) }, "Agendar Agora"),
+        e("div", { className:"hero-stats" },
+          e("div",{style:{textAlign:"center"}}, e("div",{className:"hero-stat-num"},"500+"), e("div",{className:"text-sm text-gray-600"},"Clientes Felizes")),
+          e("div",{style:{textAlign:"center"}}, e("div",{className:"hero-stat-num"},"5★"),   e("div",{className:"text-sm text-gray-600"},"Avaliação Média")),
+          e("div",{style:{textAlign:"center"}}, e("div",{className:"hero-stat-num"},"100%"), e("div",{className:"text-sm text-gray-600"},"Satisfação"))
+        )
+      )
+    ),
+
+    // ── SERVIÇOS ──────────────────────────
+    e("section", { ref:servRef, className:"px-6 py-16 bg-white" },
+      e("div", { className:"max-w-6xl mx-auto" },
+        e("div", { className:"text-center mb-12" },
+          e("h2", { style:{fontFamily:"'Playfair Display',serif",fontSize:"clamp(2rem,5vw,3rem)",fontWeight:700,marginBottom:"1rem"} }, "Nossos Serviços"),
+          e("p",  { className:"text-lg text-gray-600 max-w-3xl mx-auto" }, "Escolha o serviço ideal para você"),
+          e("div",{ className:"hint-pill" }, "💡 Clique para selecionar · Clique novamente para desmarcar")
+        ),
+
+        // Grid de serviços
+        e("div", { className:"grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 mb-12" },
+          ...SERVICES.map(s => {
+            const isSel = selServices.some(x => x.id === s.id);
+            return e("div", {
+              key:s.id,
+              className:`service-card${isSel ? " selected" : ""}`,
+              onClick:()=>toggleService(s),
+            },
+              e("div", { className:`service-card-check${isSel ? " checked" : " empty"}` }, isSel ? "✓" : ""),
+              e("h3", { className:"text-xl font-semibold text-gray-900", style:{paddingRight:"2rem",marginBottom:".75rem"} }, s.name),
+              e("p",  { className:"text-sm text-gray-600 mb-4", style:{lineHeight:1.6} }, s.description),
+              e("div",{ className:"flex items-center justify-between text-sm" },
+                e("div",{className:"flex items-center gap-1 text-gray-600"}, e("span",null,"🕐"), e("span",null,s.duration+" min")),
+                e("div",{className:"flex items-center gap-1 text-nude font-semibold"}, e("span",null,"💰"), e("span",null,"R$ "+s.price))
+              )
+            );
+          })
+        ),
+
+        // Addons + Resumo (aparecem ao selecionar pelo menos 1 serviço)
+        selServices.length > 0 && e("div", null,
+          e("h3", { style:{fontFamily:"'Playfair Display',serif",fontSize:"1.5rem",fontWeight:700,textAlign:"center",marginBottom:"1.5rem",color:"#111827"} }, "Adicione Serviços Extras"),
+          e("div", { className:"grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-8" },
+            ...ADDONS.map(a => {
+              const isSel = selAddons.some(x => x.id === a.id);
+              return e("div", {
+                key:a.id,
+                className:`addon-card${isSel ? " selected" : ""}`,
+                onClick:()=>toggleAddon(a),
+              },
+                e("div",{className:"flex items-start justify-between mb-2"},
+                  e("h4",{className:"text-base font-semibold text-gray-900",style:{fontFamily:"'Playfair Display',serif"}},a.name),
+                  isSel && e("div",{style:{background:"var(--gold)",color:"#fff",borderRadius:"50%",width:"1.2rem",height:"1.2rem",display:"flex",alignItems:"center",justifyContent:"center",fontSize:".7rem",flexShrink:0}},"✓")
+                ),
+                e("p",{className:"text-xs text-gray-600 mb-3",style:{lineHeight:1.4}},a.description),
+                e("div",{className:"flex items-center justify-between text-xs"},
+                  e("span",{className:"text-gray-600"},"+"+a.duration+" min"),
+                  e("span",{className:"text-gold font-semibold"},"R$ "+a.price)
+                )
+              );
+            })
+          ),
+          // Summary strip
+          e("div", { className:"summary-box" },
+            e("div", { className:"flex md:flex-row flex-col md:items-center md:justify-between gap-4" },
+              e("div", null,
+                e("h4", { className:"font-semibold mb-2" }, "Resumo do Agendamento"),
+                e("div", { className:"space-y-1 text-sm text-gray-600" },
+                  ...selServices.map(s => e("p",{key:s.id},"💅 "+s.name+" — R$ "+s.price)),
+                  ...selAddons.map(a  => e("p",{key:a.id},"✨ "+a.name+" — R$ "+a.price))
+                )
+              ),
+              e("div", { className:"flex gap-8" },
+                e("div",{style:{textAlign:"center"}},
+                  e("div",{className:"text-sm text-gray-600 mb-1"},"Duração Total"),
+                  e("div",{style:{fontFamily:"'Playfair Display',serif",fontSize:"1.5rem",fontWeight:700,color:"var(--nude)"}},totalDuration+" min")
+                ),
+                e("div",{style:{textAlign:"center"}},
+                  e("div",{className:"text-sm text-gray-600 mb-1"},"Valor Total"),
+                  e("div",{style:{fontFamily:"'Playfair Display',serif",fontSize:"1.5rem",fontWeight:700,color:"var(--nude)"}},"R$ "+totalPrice)
+                )
+              )
+            )
+          )
+        )
+      )
+    ),
+
+    // ── DATA E HORÁRIO ────────────────────
+    selServices.length > 0 && e("section", { className:"px-6 py-16 bg-gray-50" },
+      e("div", { className:"max-w-5xl mx-auto" },
+        e("div", { className:"text-center mb-12" },
+          e("h2", { style:{fontFamily:"'Playfair Display',serif",fontSize:"clamp(2rem,5vw,3rem)",fontWeight:700,marginBottom:"1rem"} }, "Escolha Data e Horário"),
+          e("p",  { className:"text-lg text-gray-600" }, "Selecione o melhor dia e horário para seu atendimento")
+        ),
+        e("div", { className:"grid md:grid-cols-2 gap-8" },
+          // Calendário
+          e("div", { className:"bg-white rounded-xl shadow-sm p-6" },
+            e("h3", { className:"text-xl font-semibold mb-4 flex items-center gap-2" }, "📅 Selecione a Data"),
+            e(Calendar, { selectedDate:selDate, onSelectDate:d=>{ setSelDate(d); setSelTime(null); } })
+          ),
+          // Slots
+          e("div", { className:"bg-white rounded-xl shadow-sm p-6" },
+            e("h3", { className:"text-xl font-semibold mb-4" }, "🕐 Horários Disponíveis"),
+            !selDate
+              ? e("div",{style:{display:"flex",alignItems:"center",justifyContent:"center",height:"16rem",textAlign:"center"}},
+                  e("p",{className:"text-gray-600"},"Selecione uma data para ver os horários disponíveis")
+                )
+              : slots.length === 0
+              ? e("div",{style:{display:"flex",alignItems:"center",justifyContent:"center",height:"16rem",textAlign:"center"}},
+                  e("p",{className:"text-gray-600"},"Não há horários disponíveis para esta data.",e("br"),"Por favor, escolha outra data.")
+                )
+              : e("div",{className:"slot-grid"},
+                  ...slots.map(s => e("button",{
+                    key:s, className:`slot-btn${selTime===s?" selected":""}`,
+                    onClick:()=>setSelTime(s),
+                  },s))
+                )
+          )
+        )
+      )
+    ),
+
+    // ── FORMULÁRIO ────────────────────────
+    selServices.length > 0 && selDate && selTime && e("section", { className:"px-6 py-16 bg-white" },
+      e("div", { className:"max-w-3xl mx-auto" },
+        e("div", { className:"text-center mb-12" },
+          e("h2", { style:{fontFamily:"'Playfair Display',serif",fontSize:"clamp(2rem,5vw,3rem)",fontWeight:700,marginBottom:"1rem"} }, "Finalize seu Agendamento"),
+          e("p",  { className:"text-lg text-gray-600" }, "Preencha seus dados para confirmar")
+        ),
+        e("form", { onSubmit:handleSubmit, className:"bg-white rounded-xl shadow-lg p-8" },
+          // Summary inside form
+          e("div", { className:"summary-box mb-8" },
+            e("h3", { className:"font-semibold mb-4" }, "Resumo do Agendamento"),
+            e("div", { className:"space-y-1 text-sm" },
+              e("div", null,
+                e("span",{className:"text-gray-600",style:{display:"block",marginBottom:".25rem"}},"Serviços:"),
+                ...selServices.map(s=>e("div",{key:s.id,className:"summary-row ml-2"},
+                  e("span",{className:"font-semibold"},"💅 "+s.name),
+                  e("span",{className:"text-nude font-semibold"},"R$ "+s.price)
+                ))
+              ),
+              selAddons.length > 0 && e("div",null,
+                e("span",{className:"text-gray-600",style:{display:"block",marginBottom:".25rem"}},"Adicionais:"),
+                ...selAddons.map(a=>e("div",{key:a.id,className:"summary-row ml-2"},
+                  e("span",{className:"font-semibold"},"✨ "+a.name),
+                  e("span",{className:"text-gold font-semibold"},"R$ "+a.price)
+                ))
+              ),
+              e("div",{className:"summary-row"},e("span",{className:"text-gray-600"},"Data:"),e("span",{className:"font-semibold"},selDate.toLocaleDateString("pt-BR"))),
+              e("div",{className:"summary-row"},e("span",{className:"text-gray-600"},"Horário:"),e("span",{className:"font-semibold"},selTime)),
+              e("div",{className:"summary-row summary-total"},
+                e("span",{className:"font-bold"},"Valor Total:"),
+                e("span",{style:{fontFamily:"'Playfair Display',serif",fontSize:"1.1rem",fontWeight:700,color:"var(--nude)"}},"R$ "+totalPrice)
+              )
+            )
+          ),
+          // Fields
+          e("div", { className:"space-y-6" },
+            e("div",null,
+              e("label",{className:"text-sm font-medium mb-2",style:{display:"block"}},"Nome Completo *"),
+              e("input",{type:"text",value:name,placeholder:"Seu nome completo",required:true,className:"field-input",onChange:ev=>setName(ev.target.value)})
+            ),
+            e("div",null,
+              e("label",{className:"text-sm font-medium mb-2",style:{display:"block"}},"Telefone/WhatsApp *"),
+              e("input",{type:"tel",value:phone,placeholder:"(00) 00000-0000",required:true,className:"field-input",onChange:ev=>setPhone(fmtPhone(ev.target.value))})
+            ),
+            e("div",{className:"check-row"},
+              e("input",{type:"checkbox",id:"allergy",checked:hasAllergy,style:{marginTop:".15rem",accentColor:"var(--nude)"},onChange:ev=>setAllergy(ev.target.checked)}),
+              e("div",null,
+                e("label",{htmlFor:"allergy",className:"text-sm font-medium cursor-pointer"},"Possuo alergia a algum produto"),
+                e("p",{className:"text-xs text-gray-600 mt-1"},"Caso tenha alergia, entraremos em contato antes do atendimento")
+              )
+            ),
+            e("div",{className:"check-row"},
+              e("input",{type:"checkbox",id:"policy",checked:accepts,required:true,style:{marginTop:".15rem",accentColor:"var(--nude)"},onChange:ev=>setAccepts(ev.target.checked)}),
+              e("div",null,
+                e("label",{htmlFor:"policy",className:"text-sm font-medium cursor-pointer"},"Aceito a política de cancelamento *"),
+                e("p",{className:"text-xs text-gray-600 mt-1"},"Cancelamentos devem ser feitos com no mínimo 24h de antecedência")
+              )
+            ),
+            sent && e("div",{style:{padding:"1rem",background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:".5rem",color:"#166534",fontSize:".9rem"}},
+              "✅ Agendamento realizado com sucesso! Entraremos em contato em breve."
+            ),
+            e("button",{type:"submit",disabled:sent,className:"btn-nude w-full",style:{fontSize:"1.1rem"}},
+              sent ? "Agendamento Confirmado! 🎉" : "Confirmar Agendamento"
+            )
+          )
+        )
+      )
+    ),
+
+    // ── FOOTER ────────────────────────────
+    e("footer", { className:"px-6 py-8 text-center bg-gray-100" },
+      e("p", {
+        className:"text-xs text-gray-600 select-none cursor-default",
+        onClick: footerClick,
+      }, "© 2026 Atelier de Beleza · Nail Design Studio")
+    )
+  );
+}
+
+// ─── RENDER ───────────────────────────────────────────
+ReactDOM.createRoot(document.getElementById("root")).render(e(App));
+</script>
+</body>
+</html>
